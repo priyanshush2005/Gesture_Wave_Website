@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GestureWaveAI — Touch-Free Gesture Control</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+<body>
+<!-- ── Navbar ── -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <div class="nav-logo">GestureWave<span>AI</span></div>
+    <ul class="nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#gestures">Gestures</a></li>
+      <li><a href="#how">How it works</a></li>
+      <li><a href="#tech">Tech</a></li>
+      <li><a href="#download" class="nav-cta">Download</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#features" onclick="closeMobile()">Features</a>
+    <a href="#gestures" onclick="closeMobile()">Gestures</a>
+    <a href="#how" onclick="closeMobile()">How it works</a>
+    <a href="#tech" onclick="closeMobile()">Tech</a>
+    <a href="#download" onclick="closeMobile()">Download</a>
+  </div>
+</nav>
+
+<!-- ── Hero ── -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-badge">AI-Powered · Offline · Windows</div>
+      <h1 class="hero-title">
+        Control your PC with<br><em>just your hands</em>
+      </h1>
+      <p class="hero-sub">
+        GestureWaveAI uses AI-powered hand tracking to detect gestures in real time — no controllers, no touch, no special hardware.
+      </p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="document.getElementById('download').scrollIntoView({behavior:'smooth'})">
+          ↓ Download for Free
+        </button>
+        <button class="btn-outline" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">
+          See how it works
+        </button>
+      </div>
+
+      <!-- Pipeline diagram -->
+      <div class="pipeline" id="pipeline">
+        <div class="pipeline-step">
+          <div class="pipe-card">
+            <div class="pc-title">Webcam</div>
+            <div class="pc-sub">Live frame</div>
+          </div>
+          <div class="pipe-arrow">→</div>
+        </div>
+        <div class="pipeline-step">
+          <div class="pipe-card">
+            <div class="pc-title">MediaPipe</div>
+            <div class="pc-sub">21 landmarks</div>
+          </div>
+          <div class="pipe-arrow">→</div>
+        </div>
+        <div class="pipeline-step">
+          <div class="pipe-card">
+            <div class="pc-title">Classifier</div>
+            <div class="pc-sub">Gesture detected</div>
+          </div>
+          <div class="pipe-arrow">→</div>
+        </div>
+        <div class="pipeline-step">
+          <div class="pipe-card">
+            <div class="pc-title">Mode Check</div>
+            <div class="pc-sub">Media / Slides</div>
+          </div>
+          <div class="pipe-arrow">→</div>
+        </div>
+        <div class="pipeline-step">
+          <div class="pipe-card">
+            <div class="pc-title">Action</div>
+            <div class="pc-sub">PyAutoGUI</div>
+          </div>
+          <div class="pipe-arrow">→</div>
+        </div>
+        <div class="pipeline-step">
+          <div class="pipe-card">
+            <div class="pc-title">HUD Overlay</div>
+            <div class="pc-sub">Name + confidence</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Features ── -->
+<section id="features">
+  <div class="container">
+    <p class="section-label reveal">Features</p>
+    <h2 class="section-title reveal">Everything you need,<br>nothing you don't</h2>
+    <p class="section-sub reveal">Built with Python, OpenCV and MediaPipe. No special hardware required.</p>
+    <div class="features-grid">
+      <div class="feat-card reveal">
+        <span class="feat-icon">📷</span>
+        <h3>Live camera overlay</h3>
+        <p>Real-time hand landmark visualization drawn directly on your webcam feed as you move.</p>
+      </div>
+      <div class="feat-card reveal">
+        <span class="feat-icon">📊</span>
+        <h3>Gesture HUD</h3>
+        <p>Detected gesture name and confidence percentage displayed on screen in real time.</p>
+      </div>
+      <div class="feat-card reveal">
+        <span class="feat-icon">🖥️</span>
+        <h3>Presentation control</h3>
+        <p>Swipe gestures to advance or go back slides — ditch the clicker for good.</p>
+      </div>
+      <div class="feat-card reveal">
+        <span class="feat-icon">🔊</span>
+        <h3>Media control</h3>
+        <p>Raise or lower volume, play and pause — all with a flick of your wrist.</p>
+      </div>
+      <div class="feat-card reveal">
+        <span class="feat-icon">🔄</span>
+        <h3>Mode switching</h3>
+        <p>Thumbs up switches between Media and Presentation mode on the fly.</p>
+      </div>
+      <div class="feat-card reveal">
+        <span class="feat-icon">📸</span>
+        <h3>Two-hand screenshot</h3>
+        <p>Open both palms simultaneously to instantly capture your screen.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Gestures ── -->
+<section id="gestures">
+  <div class="container">
+    <p class="section-label reveal">Gesture map</p>
+    <h2 class="section-title reveal">Every gesture, every action</h2>
+    <p class="section-sub reveal">One hand. Two modes. Total control.</p>
+
+    <div class="reveal">
+      <div class="mode-toggle">
+        <button class="mode-btn active" id="btnMedia" onclick="switchMode('media')">Media mode</button>
+        <button class="mode-btn" id="btnPres" onclick="switchMode('presentation')">Presentation mode</button>
+      </div>
+
+      <div class="gesture-panel active" id="panelMedia">
+        <div class="gesture-list">
+          <div class="gesture-row">
+            <span class="g-emoji">👉</span>
+            <span class="g-name">Swipe right</span>
+            <span class="g-arrow">→</span>
+            <span class="g-action">Volume up</span>
+          </div>
+          <div class="gesture-row">
+            <span class="g-emoji">👈</span>
+            <span class="g-name">Swipe left</span>
+            <span class="g-arrow">→</span>
+            <span class="g-action">Volume down</span>
+          </div>
+          <div class="gesture-row">
+            <span class="g-emoji">✋</span>
+            <span class="g-name">Open palm</span>
+            <span class="g-arrow">→</span>
+            <span class="g-action">Play / Pause</span>
+          </div>
+          <div class="gesture-row">
+            <span class="g-emoji">👍</span>
+            <span class="g-name">Thumbs up</span>
+            <span class="g-arrow">→</span>
+            <span class="g-action">Switch to Presentation mode</span>
+          </div>
+          <div class="gesture-row">
+            <span class="g-emoji">🤲</span>
+            <span class="g-name">Both palms open</span>
+            <span class="g-arrow">→</span>
+            <span class="g-action">Screenshot</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="gesture-panel" id="panelPres">
+        <div class="gesture-list">
+          <div class="gesture-row">
+            <span class="g-emoji">👉</span>
+            <span class="g-name">Swipe right</span>
+            <span class="g-arrow">→</span>
+            <span class="g-action">Next slide</span>
+          </div>
+          <div class="gesture-row">
+            <span class="g-emoji">👈</span>
+            <span class="g-name">Swipe left</span>
+            <span class="g-arrow">→</span>
+            <span class="g-action">Previous slide</span>
+          </div>
+          <div class="gesture-row">
+            <span class="g-emoji">👍</span>
+            <span class="g-name">Thumbs up</span>
+            <span class="g-arrow">→</span>
+            <span class="g-action">Switch to Media mode</span>
+          </div>
+          <div class="gesture-row">
+            <span class="g-emoji">🤲</span>
+            <span class="g-name">Both palms open</span>
+            <span class="g-arrow">→</span>
+            <span class="g-action">Screenshot</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── How it works ── -->
+<section id="how">
+  <div class="container">
+    <p class="section-label reveal">How it works</p>
+    <h2 class="section-title reveal">From webcam to action<br>in milliseconds</h2>
+    <p class="section-sub reveal">Six stages, all running locally on your machine. No internet. No cloud.</p>
+    <div class="steps-grid">
+      <div class="step-card reveal">
+        <div class="step-num">01</div>
+        <h4>Webcam capture</h4>
+        <p>OpenCV captures your live webcam frame continuously at high frame rate.</p>
+      </div>
+      <div class="step-card reveal">
+        <div class="step-num">02</div>
+        <h4>Hand landmark detection</h4>
+        <p>MediaPipe maps 21 precise skeletal points on each hand per frame.</p>
+      </div>
+      <div class="step-card reveal">
+        <div class="step-num">03</div>
+        <h4>Gesture classification</h4>
+        <p>Finger angles and relative positions are analyzed to identify your gesture.</p>
+      </div>
+      <div class="step-card reveal">
+        <div class="step-num">04</div>
+        <h4>Mode check</h4>
+        <p>The app determines whether you're in Media or Presentation mode and routes accordingly.</p>
+      </div>
+      <div class="step-card reveal">
+        <div class="step-num">05</div>
+        <h4>Action execution</h4>
+        <p>PyAutoGUI fires the correct system command — volume, slide navigation, screenshot, and more.</p>
+      </div>
+      <div class="step-card reveal">
+        <div class="step-num">06</div>
+        <h4>HUD overlay</h4>
+        <p>Gesture name and confidence percentage appear on your screen in real time via OpenCV.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Tech Stack ── -->
+<section id="tech">
+  <div class="container">
+    <p class="section-label reveal">Tech stack</p>
+    <h2 class="section-title reveal">Built with</h2>
+    <p class="section-sub reveal">All open source. All runs offline. Nothing leaves your machine.</p>
+    <div class="tech-card reveal">
+      <div class="tech-grid">
+        <div class="tech-item">
+          <span class="tech-pill">Python 3.9+</span>
+          <span class="tech-desc">Core language powering all application logic</span>
+        </div>
+        <div class="tech-item">
+          <span class="tech-pill">OpenCV</span>
+          <span class="tech-desc">Webcam capture, frame rendering and HUD overlay</span>
+        </div>
+        <div class="tech-item">
+          <span class="tech-pill">MediaPipe</span>
+          <span class="tech-desc">AI hand tracking — detects 21 landmarks per hand</span>
+        </div>
+        <div class="tech-item">
+          <span class="tech-pill">PyAutoGUI</span>
+          <span class="tech-desc">Executes system-level keyboard and mouse actions</span>
+        </div>
+        <div class="tech-item">
+          <span class="tech-pill">pycaw</span>
+          <span class="tech-desc">Windows audio control for volume gestures</span>
+        </div>
+        <div class="tech-item">
+          <span class="tech-pill">Pillow</span>
+          <span class="tech-desc">Screenshot capture and image processing</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Requirements ── -->
+<section id="requirements">
+  <div class="container">
+    <p class="section-label reveal">System requirements</p>
+    <h2 class="section-title reveal">Runs on most Windows PCs</h2>
+    <p class="section-sub reveal">Lightweight by design. If you have a webcam, you're ready.</p>
+    <div class="req-grid">
+      <div class="req-card reveal">
+        <h4>System</h4>
+        <div class="req-row">
+          <span class="req-label">OS</span>
+          <span class="req-val">Windows 10 / 11</span>
+        </div>
+        <div class="req-row">
+          <span class="req-label">Python</span>
+          <span class="req-val">3.9 or higher</span>
+        </div>
+        <div class="req-row">
+          <span class="req-label">Camera</span>
+          <span class="req-val">Any working webcam</span>
+        </div>
+      </div>
+      <div class="req-card reveal">
+        <h4>Extras</h4>
+        <div class="req-row">
+          <span class="req-label">Internet</span>
+          <span class="req-val">Not required</span>
+        </div>
+        <div class="req-row">
+          <span class="req-label">Special hardware</span>
+          <span class="req-val">None needed</span>
+        </div>
+        <div class="req-row">
+          <span class="req-label">Setup</span>
+          <span class="req-val">pip install + run</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Download ── -->
+<section id="download">
+  <div class="container">
+    <div class="dl-wrap">
+      <p class="section-label reveal" style="text-align:center;">Download</p>
+      <h2 class="section-title reveal" style="text-align:center;">Ready to go hands-free?</h2>
+      <p class="section-sub reveal" style="text-align:center;margin:0 auto 40px;">Free. Offline. No account needed.</p>
+      <div class="dl-card reveal">
+        <div class="dl-version">GestureWaveAI · v1.0.0</div>
+        <h2>Download for Windows</h2>
+        <p>One installer. Works right out of the box.</p>
+        <<a href="assets/GestureControl.zip" download="GestureControl_v1.zip" class="dl-btn" style="text-decoration: none; display: inline-block;">
+   ⬇ Download GestureWaveAI.exe
+</a>
+        <div class="dl-meta">Windows 10/11 &nbsp;·&nbsp; Free &nbsp;·&nbsp; No account required &nbsp;·&nbsp; Runs offline &nbsp;·&nbsp; ~100 MB</div>
+        <a href="https://github.com/priyanshush2005/Touch-Free-Gesture-Control-Using-AI-Hand-Tracking" target="_blank" class="dl-github">
+          View source on GitHub
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ── -->
+<footer>
+  <div class="footer-inner">
+    <p>© 2025 GestureWaveAI. All rights reserved.</p>
+    <div class="footer-links">
+      <a href="https://github.com/priyanshush2005/Touch-Free-Gesture-Control-Using-AI-Hand-Tracking" target="_blank">GitHub</a>
+      <a href="mailto:contact@gesturewaveai.com">Contact</a>
+    </div>
+  </div>
+</footer>
+<script src="script.js"></script>
+</body>
+</html>
